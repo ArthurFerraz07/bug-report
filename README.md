@@ -1,24 +1,24 @@
 # README
+## Funcionalidades
+- Fazer login;
+- Fazer logout;
+- Reportar bug;
+- Listar bugs reportados;
+- Filtrar bugs reportados;
+- Atualizar o andamento da correção de um bug.
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Backlog futuro
+- Multitenancy por schema ou por banco de dados;
+- Integrar com o gitlab (criar issue e atualizar status);
+- Integrar com o slack (mandar mensagem em algum canal);
 
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+## Entidades
+### User
+#### Atributos
+- id - int;
+- uid - string;
+- username - string;
+- encrypted_password - string;
+- name - string;
+- tokens - string[];
+- kind - enum
