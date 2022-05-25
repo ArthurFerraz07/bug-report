@@ -43,14 +43,25 @@ gem "tzinfo-data", platforms: %i[ mingw mswin x64_mingw jruby ]
 gem "bootsnap", require: false
 
 # Use Sass to process CSS
-# gem "sassc-rails"
+gem "sassc-rails"
 
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 # gem "image_processing", "~> 1.2"
 
+#
 # Added gems
+#
+
+# This Ruby Gem provides FFI bindings, and a simplified interface, to the Argon2 algorithm. Argon2 is the official winner of the Password Hashing Competition, a several year project to identify a successor to bcrypt/PBKDF/scrypt methods of securely storing passwords.
+gem 'argon2'
+# Pretty print
 gem 'awesome_print'
+# Environment variables
 gem 'dotenv'
+# Bootstrap
+gem 'bootstrap', '~> 5.1.3'
+# Linter to erb files
+gem 'erb_lint'
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
