@@ -56,12 +56,14 @@ gem "sassc-rails"
 gem 'argon2'
 # Pretty print
 gem 'awesome_print'
-# Environment variables
-gem 'dotenv'
 # Bootstrap
 gem 'bootstrap', '~> 5.1.3'
+# Environment variables
+gem 'dotenv'
 # Linter to erb files
 gem 'erb_lint'
+# JSON web token
+gem 'jwt'
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem

@@ -11,7 +11,7 @@ class User < ApplicationRecord
   # Enums
   #
 
-  enum kind: %i[maintainer developer customer]
+  enum kind: %i[developer maintainer customer]
 
   #
   # Validations

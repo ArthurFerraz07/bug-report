@@ -4,9 +4,11 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   root 'pages#main'
 
-  resources :users, only: %i[] do
-    collection do
-      post :authenticate
+  namespace :api do
+    resources :users do
+      collection do
+        post :authenticate
+      end
     end
   end
 end
