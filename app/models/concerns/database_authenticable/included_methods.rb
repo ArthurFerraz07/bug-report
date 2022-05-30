@@ -17,12 +17,12 @@ module DatabaseAuthenticable
     # Virtual attributes
     #
 
-    attr_accessor :password
+    attr_accessor :current_access_token, :password
 
     ##
     # Generate auth tokens
     #
-    def generate_auth_token
+    def generate_access_token
       token_ = nil
       loop do
         token_ = SecureRandom.hex(2**TOKEN_EXP)
@@ -32,6 +32,16 @@ module DatabaseAuthenticable
       self.tokens ||= []
       tokens << token_
       self
+    end
+
+    ##
+    # Login resource
+    #
+    def login
+      generate_access_token
+      payload = { uid:, access_token: tokens.last, easter_egg: DatabaseAuthenticable::JWT_EASTER_EGG }
+      self.current_access_token = JWT.encode(payload, DatabaseAuthenticable::JWT_HS512_KEY, 'HS512')
+      save
     end
 
     ##

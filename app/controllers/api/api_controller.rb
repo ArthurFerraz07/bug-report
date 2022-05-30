@@ -7,12 +7,14 @@ module Api
   class ApiController < ApplicationController
     skip_forgery_protection
     before_action :authenticate_user!
+    after_action :set_auth_headers
 
     #
     # Virtual attributes
     #
 
     attr_accessor :current_user
+    attr_reader :current_access_token
 
     private
 
@@ -20,8 +22,8 @@ module Api
     # Check if user is authenticated
     #
     def authenticate_user!
-      token = request.headers['token']
-      @current_user = User.authenticate_by_token(token)
+      @current_access_token = request.headers['access-token']
+      @current_user = User.find_by_access_token(current_access_token)
       return unauthorized if @current_user.blank?
     end
 
@@ -29,22 +31,47 @@ module Api
     # Bad request response
     #
     def bad_request(messages = [], status: :bad_request)
-      messages = messages.map { |message| StandardError.new(message) }
-      render(json: ErrorSerializer.new(messages).serialized_json, status:)
+      errors = messages.map { |message| ApplicationError.new(status, message) }
+      render(json: serialize_collection(ErrorSerializer, errors), status:)
+    end
+
+    ##
+    # Serialize collection
+    #
+    def serialize_collection(serializer, collection)
+      return nil if collection.nil?
+
+      collection.map { |object| serialize_object(serializer, object) }
+    end
+
+    ##
+    # Serialize object
+    #
+    def serialize_object(serializer, object)
+      return nil if object.nil?
+
+      serializer.new(object).serializable_hash.dig(:data, :attributes)
+    end
+
+    ##
+    # Set auth headers
+    #
+    def set_auth_headers
+      response.headers['access-token'] = current_access_token
     end
 
     ##
     # Success response
     #
     def success(serializer, object)
-      render(json: serializer.new(object).serialized_json)
+      render(json: serialize_object(serializer, object), status: :ok)
     end
 
     ##
     # Unauthorized response
     #
-    def unauthorized
-      bad_request(['Unauthenticated'], status: :unauthorized)
+    def unauthorized(message = 'Unauthenticated')
+      bad_request([message], status: :unauthorized)
     end
   end
 end

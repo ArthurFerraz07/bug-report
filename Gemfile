@@ -62,6 +62,8 @@ gem 'bootstrap', '~> 5.1.3'
 gem 'dotenv'
 # Linter to erb files
 gem 'erb_lint'
+# A fast JSON:API serializer for Ruby Objects.
+gem 'jsonapi-serializer'
 # JSON web token
 gem 'jwt'
 
