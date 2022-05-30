@@ -22,7 +22,7 @@ module Api
     # Check if user is authenticated
     #
     def authenticate_user!
-      @current_access_token = request.headers['access-token']
+      @current_access_token = request.headers['HTTP_ACCESS_TOKEN']
       @current_user = User.find_by_access_token(current_access_token)
       return unauthorized if @current_user.blank?
     end
@@ -57,7 +57,7 @@ module Api
     # Set auth headers
     #
     def set_auth_headers
-      response.headers['access-token'] = current_access_token
+      response.headers['access_token'] = current_access_token
     end
 
     ##

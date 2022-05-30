@@ -59,7 +59,7 @@ gem 'awesome_print'
 # Bootstrap
 gem 'bootstrap', '~> 5.1.3'
 # Environment variables
-gem 'dotenv'
+gem 'dotenv-rails'
 # Linter to erb files
 gem 'erb_lint'
 # A fast JSON:API serializer for Ruby Objects.

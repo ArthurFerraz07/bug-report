@@ -11,7 +11,7 @@ module DatabaseAuthenticable
     # Constants
     #
 
-    TOKEN_EXP = 8
+    TOKEN_EXP = 5
 
     #
     # Virtual attributes
@@ -37,20 +37,20 @@ module DatabaseAuthenticable
     ##
     # Login resource
     #
-    def login
+    def authenticate
       generate_access_token
       payload = { uid:, access_token: tokens.last, easter_egg: DatabaseAuthenticable::JWT_EASTER_EGG }
       self.current_access_token = JWT.encode(payload, DatabaseAuthenticable::JWT_HS512_KEY, 'HS512')
-      save
+      save!
     end
 
     ##
     # Check if passed password is valid for user
     #
     def valid_password?(password_)
-      return false if [password_, encrypt_password].any?(&:blank?)
+      return false if [password_, encrypted_password].any?(&:blank?)
 
-      Argon2::Password.verify_password(password_, encrypted_password, ENV['PASSWORD_HASHER_KEY'])
+      Argon2::Password.verify_password(password_, encrypted_password, DatabaseAuthenticable::PASSWORD_HASHER_KEY)
     end
 
     private

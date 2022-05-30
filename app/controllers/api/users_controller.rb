@@ -12,7 +12,7 @@ module Api
     #
     def authenticate
       user = User.find_by(uid: authenticate_params[:uid])
-      if user&.valid_password?(authenticate_params[:password]) && user&.login
+      if user&.valid_password?(authenticate_params[:password]) && user&.authenticate
         @current_access_token = user.current_access_token
         success(Api::UserSerializer, user)
       else
