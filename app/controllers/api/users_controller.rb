@@ -14,9 +14,22 @@ module Api
       user = User.find_by(uid: authenticate_params[:uid])
       if user&.valid_password?(authenticate_params[:password]) && user&.authenticate
         @current_access_token = user.current_access_token
-        success(Api::UserSerializer, user)
+        success(UserSerializer, user)
       else
         unauthorized('Invalid credentials')
+      end
+    end
+
+    ##
+    # Logout user
+    #
+    def logout
+      raw_token = parse_access_token(current_access_token).dig(0, 'access_token')
+      current_user.tokens.delete(raw_token) if raw_token.present?
+      if current_user.save
+        success(UserSerializer, current_user)
+      else
+        bad_request
       end
     end
 

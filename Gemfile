@@ -60,8 +60,6 @@ gem 'awesome_print'
 gem 'bootstrap', '~> 5.1.3'
 # Environment variables
 gem 'dotenv-rails'
-# Linter to erb files
-gem 'erb_lint'
 # A fast JSON:API serializer for Ruby Objects.
 gem 'jsonapi-serializer'
 # JSON web token
@@ -82,6 +80,8 @@ group :development do
   # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
   # gem "spring"
   gem 'pry'
+
+  gem 'rubocop-rails'
 end
 
 group :test do

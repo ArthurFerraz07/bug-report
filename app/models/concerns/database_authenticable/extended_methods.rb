@@ -5,6 +5,8 @@ module DatabaseAuthenticable
   # Module used by models with database authentication
   #
   module ExtendedMethods
+    include DatabaseAuthenticable
+
     #
     # Virtual attributes
     #
@@ -15,9 +17,13 @@ module DatabaseAuthenticable
     # Find user by access token
     #
     def find_by_access_token(access_token)
-      payload = JWT.decode(access_token, DatabaseAuthenticable::JWT_HS512_KEY, true, { algorithm: 'HS512' })
+      payload = parse_access_token(access_token)
+      return nil if payload.blank?
+
       user = User.find_by_uid(payload&.dig(0, 'uid'))
-      if user.present? && payload.dig(0, 'access_token').present? && user.tokens.include?(payload.dig(0, 'access_token')) &&
+      return nil if user.blank?
+
+      if payload.dig(0, 'access_token').present? && user.tokens.include?(payload.dig(0, 'access_token')) &&
          payload.dig(0, 'easter_egg').present? && DatabaseAuthenticable::JWT_EASTER_EGG.eql?(payload.dig(0, 'easter_egg'))
         user
       end

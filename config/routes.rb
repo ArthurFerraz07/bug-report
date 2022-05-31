@@ -8,6 +8,7 @@ Rails.application.routes.draw do
     resources :users do
       collection do
         post :authenticate
+        delete :logout
       end
     end
   end

@@ -9,6 +9,6 @@ module Api
     # Attributes
     #
 
-    attributes :id, :username
+    attributes :id, :kind, :username
   end
 end

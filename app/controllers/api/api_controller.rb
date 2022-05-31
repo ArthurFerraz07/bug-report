@@ -5,6 +5,7 @@ module Api
   # API controller
   #
   class ApiController < ApplicationController
+    include DatabaseAuthenticable
     skip_forgery_protection
     before_action :authenticate_user!
     after_action :set_auth_headers
@@ -63,7 +64,7 @@ module Api
     ##
     # Success response
     #
-    def success(serializer, object)
+    def success(serializer = ApplicationSerializer, object = nil)
       render(json: serialize_object(serializer, object), status: :ok)
     end
 
